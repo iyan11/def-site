@@ -1,0 +1,394 @@
+-- phpMyAdmin SQL Dump
+-- version 4.5.4.1deb2ubuntu2.1
+-- http://www.phpmyadmin.net
+--
+-- Хост: localhost
+-- Время создания: Фев 13 2021 г., 16:28
+-- Версия сервера: 5.7.33-0ubuntu0.16.04.1
+-- Версия PHP: 7.0.33-0ubuntu0.16.04.16
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET time_zone = "+00:00";
+
+--
+-- База данных: `site.ru`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `accounts`
+--
+
+CREATE TABLE `accounts` (
+  `id` int(11) NOT NULL,
+  `login` varchar(64) NOT NULL,
+  `password` varchar(64) NOT NULL,
+  `mail` varchar(128) NOT NULL,
+  `lvl_admin` int(1) NOT NULL DEFAULT '0',
+  `date_reg` int(24) NOT NULL,
+  `last_login` int(24) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Дамп данных таблицы `accounts`
+--
+
+INSERT INTO `accounts` (`id`, `login`, `password`, `mail`, `lvl_admin`, `date_reg`, `last_login`) VALUES
+(1, 'admin', '', '', 100, 1613007599, 1613211811);
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `account_logs`
+--
+
+CREATE TABLE `account_logs` (
+  `id` int(11) NOT NULL,
+  `id_acc` int(11) NOT NULL,
+  `time` int(16) NOT NULL,
+  `ip` varchar(15) NOT NULL,
+  `browser` varchar(1024) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Дамп данных таблицы `account_logs`
+--
+
+INSERT INTO `account_logs` (`id`, `id_acc`, `time`, `ip`, `browser`) VALUES
+(1, 1, 1613069103, '0.0.0.0', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36');
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `admin_log`
+--
+
+CREATE TABLE `admin_log` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `text` text NOT NULL,
+  `date` int(16) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Дамп данных таблицы `admin_log`
+--
+
+INSERT INTO `admin_log` (`id`, `user_id`, `text`, `date`) VALUES
+(2, 1, 'Администратор отредактировал новость с id 4', 1613215092),
+(3, 1, 'Администратор добавил новость с id 5', 1613215386),
+(4, 1, 'Администратор удалил новость с id 4', 1613215412),
+(5, 1, 'Администратор отредактировал новость с id 5', 1613215432),
+(6, 1, 'Администратор добавил страницу с id 1', 1613218203),
+(7, 1, 'Администратор отредактировал страницу с id 1', 1613218855),
+(8, 1, 'Администратор отредактировал страницу с id 1', 1613218866),
+(9, 1, 'Администратор отредактировал страницу с id 1', 1613219307),
+(10, 1, 'Администратор удалил страницу с id 1', 1613219350),
+(11, 1, 'Администратор удалил новость с id 5', 1613219386),
+(12, 2, 'Администратор добавил страницу с id 2', 1613222617),
+(13, 2, 'Администратор удалил страницу с id 2', 1613222738),
+(14, 2, 'Администратор удалил страницу с id 2', 1613222740);
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `config`
+--
+
+CREATE TABLE `config` (
+  `id` int(11) NOT NULL,
+  `site` varchar(64) NOT NULL COMMENT 'Указание сайта БЕЗ http://. Пример: site.ru',
+  `name` varchar(64) NOT NULL COMMENT 'Название сайта',
+  `style` varchar(24) NOT NULL COMMENT 'Стиль шаблона'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Дамп данных таблицы `config`
+--
+
+INSERT INTO `config` (`id`, `site`, `name`, `style`) VALUES
+(1, 'site.ru', 'Site', 'default');
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `news`
+--
+
+CREATE TABLE `news` (
+  `id` int(11) NOT NULL,
+  `title` varchar(64) NOT NULL,
+  `preview` varchar(256) NOT NULL,
+  `text` text NOT NULL,
+  `author` int(11) NOT NULL,
+  `date` int(16) NOT NULL,
+  `on_vk` int(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `pages`
+--
+
+CREATE TABLE `pages` (
+  `id` int(11) NOT NULL,
+  `title` varchar(64) NOT NULL,
+  `text` longtext NOT NULL,
+  `author` int(11) NOT NULL,
+  `date` int(16) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `rnd_chat`
+--
+
+CREATE TABLE `rnd_chat` (
+  `id` int(11) NOT NULL,
+  `user_id1` int(11) NOT NULL,
+  `user_id2` int(11) DEFAULT NULL,
+  `status` int(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `vk_logs_msg`
+--
+
+CREATE TABLE `vk_logs_msg` (
+  `id` int(11) NOT NULL,
+  `msg` text NOT NULL,
+  `froms` int(11) NOT NULL,
+  `date` int(11) NOT NULL,
+  `conversation_message_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Дамп данных таблицы `vk_logs_msg`
+--
+
+INSERT INTO `vk_logs_msg` (`id`, `msg`, `froms`, `date`, `conversation_message_id`) VALUES
+(1, 'тест', 181402353, 1613221547, 4);
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `vk_mini_games`
+--
+
+CREATE TABLE `vk_mini_games` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `game_id` int(11) DEFAULT NULL,
+  `status` int(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `vk_mini_games_list`
+--
+
+CREATE TABLE `vk_mini_games_list` (
+  `id` int(11) NOT NULL,
+  `name` varchar(64) NOT NULL,
+  `status` int(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Дамп данных таблицы `vk_mini_games_list`
+--
+
+INSERT INTO `vk_mini_games_list` (`id`, `name`, `status`) VALUES
+(1, 'Кости', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `vk_msgs`
+--
+
+CREATE TABLE `vk_msgs` (
+  `id` int(11) NOT NULL,
+  `msg` varchar(64) NOT NULL,
+  `description` varchar(128) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Дамп данных таблицы `vk_msgs`
+--
+
+INSERT INTO `vk_msgs` (`id`, `msg`, `description`) VALUES
+(1, 'Привет', 'Привет'),
+(2, 'привет', 'Привет'),
+(3, 'Ку', 'Привет'),
+(4, 'ку', 'Привет'),
+(5, 'Помощь', 'Помощь:\nПомощь - вызвать помощь\nАнонимный чат - найти анонимного собеседника\nБаланс - проверить свой баланс'),
+(6, 'помощь', 'Помощь:\nПомощь - вызвать помощь\nАнонимный чат - найти анонимного собеседника\nБаланс - проверить свой баланс');
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `vk_users`
+--
+
+CREATE TABLE `vk_users` (
+  `id` int(11) NOT NULL,
+  `user` int(11) NOT NULL,
+  `date_reg` int(11) NOT NULL,
+  `money` int(11) NOT NULL,
+  `vip` int(1) NOT NULL,
+  `admin` int(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Дамп данных таблицы `vk_users`
+--
+
+INSERT INTO `vk_users` (`id`, `user`, `date_reg`, `money`, `vip`, `admin`) VALUES
+(1, 181402353, 1603537199, 10, 0, 10);
+
+--
+-- Индексы сохранённых таблиц
+--
+
+--
+-- Индексы таблицы `accounts`
+--
+ALTER TABLE `accounts`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Индексы таблицы `account_logs`
+--
+ALTER TABLE `account_logs`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Индексы таблицы `admin_log`
+--
+ALTER TABLE `admin_log`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Индексы таблицы `config`
+--
+ALTER TABLE `config`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Индексы таблицы `news`
+--
+ALTER TABLE `news`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Индексы таблицы `pages`
+--
+ALTER TABLE `pages`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Индексы таблицы `rnd_chat`
+--
+ALTER TABLE `rnd_chat`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Индексы таблицы `vk_logs_msg`
+--
+ALTER TABLE `vk_logs_msg`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Индексы таблицы `vk_mini_games`
+--
+ALTER TABLE `vk_mini_games`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Индексы таблицы `vk_mini_games_list`
+--
+ALTER TABLE `vk_mini_games_list`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Индексы таблицы `vk_msgs`
+--
+ALTER TABLE `vk_msgs`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Индексы таблицы `vk_users`
+--
+ALTER TABLE `vk_users`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- AUTO_INCREMENT для сохранённых таблиц
+--
+
+--
+-- AUTO_INCREMENT для таблицы `accounts`
+--
+ALTER TABLE `accounts`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+--
+-- AUTO_INCREMENT для таблицы `account_logs`
+--
+ALTER TABLE `account_logs`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+--
+-- AUTO_INCREMENT для таблицы `admin_log`
+--
+ALTER TABLE `admin_log`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+--
+-- AUTO_INCREMENT для таблицы `config`
+--
+ALTER TABLE `config`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+--
+-- AUTO_INCREMENT для таблицы `news`
+--
+ALTER TABLE `news`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+--
+-- AUTO_INCREMENT для таблицы `pages`
+--
+ALTER TABLE `pages`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+--
+-- AUTO_INCREMENT для таблицы `rnd_chat`
+--
+ALTER TABLE `rnd_chat`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+--
+-- AUTO_INCREMENT для таблицы `vk_logs_msg`
+--
+ALTER TABLE `vk_logs_msg`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+--
+-- AUTO_INCREMENT для таблицы `vk_mini_games`
+--
+ALTER TABLE `vk_mini_games`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT для таблицы `vk_mini_games_list`
+--
+ALTER TABLE `vk_mini_games_list`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+--
+-- AUTO_INCREMENT для таблицы `vk_msgs`
+--
+ALTER TABLE `vk_msgs`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+--
+-- AUTO_INCREMENT для таблицы `vk_users`
+--
+ALTER TABLE `vk_users`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=126;
